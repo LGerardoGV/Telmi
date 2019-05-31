@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css?family=Pacifico&display=swap');
+body, html{
+    height: 100%;
+	background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('img/bg.jpg');
+	background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center center;
+    box-sizing: border-box;
+}
+
+.title-cont{
+  padding: 10px;
+  box-sizing: border-box;
+}
+  .title-text{
+    color: white;
+    font-family: 'Pacifico', cursive;
+    font-size: 3em;
+  }
+
+@media (min-width: 576px){
+  .card-columns {
+    column-count: 3;
+  }
+}
+
+.card-columns {
+  @include media-breakpoint-only(lg) {
+  column-count: 3;
+  }
+}
+
+.card{
+  position: unset !important;
+}
+
+.accordion>.card {
+  overflow: unset;
+}
+
+.posts{
+  margin-bottom: 0px !important;
+}
+  .post-header{
+    padding: .45rem .5rem;
+  }
+
+.card-header{
+  z-index: 2;
+}
+
+.section-body{
+  overflow-y: auto;
+  max-height: 31em;
+}
+
+.btn-cont{
+  float: right;
+  margin-right: 35px;
+}
+  .btn-fixed{
+    position: fixed;
+    bottom: 55px;
+  }
+
+.title-post{
+  text-align: left;
+}
+
+.comment-cont{
+  max-width: none !important;
+  border: none !important;
+}
+
+.badge-cont{
+  background-color: white !important;
+  padding-left: 0px;
+  padding-bottom: 5px;
+  box-sizing: border-box;
+  border-bottom: 0px;
+}
+
+  .badge-name{
+    border-radius: 15px;
+    padding: 10px;
+    font-size: 80%;
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  }
+
+.comment-body{
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 15px;
+  margin-top: -15px;
+  background-color: #f8f9fa!important;
+}
+
+.btn-primary{
+  color: #fff !important;
+  cursor: pointer
+}
