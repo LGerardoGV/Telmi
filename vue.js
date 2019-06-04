@@ -1,3 +1,4 @@
+
 Vue.component('post-element', {
     props: ['title', 'body', 'index'],
     template: `
@@ -8,7 +9,7 @@ Vue.component('post-element', {
                         {{ title }}
                     </button>
                 </h5>
-                <footer class="blockquote-footer"  @click.native="showComments">Post #{{ index }}</footer>
+                <footer class="blockquote-footer">Post #{{ index }}</footer>
             </div>
             <div :id="'collapse' + index" class= "collapse" :aria-labelledby="'heading' + index" data-parent="#accordionExample">
                 <div class="card-body">{{ body }}</div>
@@ -20,15 +21,14 @@ Vue.component('post-element', {
             // comments = {}
             targetId = event.currentTarget.id;
             console.log(targetId);
-            this.$root.post_id = targetId;
-            console.log(this.$root.post_id);
+            this.$root.id_post = targetId;
+            console.log(this.$root.id_post);
 
-            this.$root.showComments();            
+            // this.$root.showComments();            
         }
     }
 })
 
-var bus = new Vue()
 Vue.component('comment-element', {
     props: ['user', 'body', 'index'],
     template: `
@@ -45,29 +45,16 @@ Vue.component('comment-element', {
     `
 })
 
-function getPostsAPI() {
-    return fetch('https://jsonplaceholder.typicode.com/posts').then(response => response.json());
-}
-
-function getCommentsAPI(){
-    return fetch('https://jsonplaceholder.typicode.com/comments').then(response => response.json());
-}
-
 new Vue({
     el: '#app',
     data: {
         posts: [],
         comments: [],
-        id_post: 0,
-        new_comment: ""
+        id_post: '',
+        new_comment: "",
+        
     },
     methods: {
-        showPosts: function () {
-            getPostsAPI().then(posts => this.posts = posts);
-        },
-        showComments: function () {
-            getCommentsAPI().then(comments => this.comments = comments);
-        },
         addPost: function (){
             postId = this.id_post;
             id = this.comments.length;
@@ -77,20 +64,55 @@ new Vue({
 
             new_array = this.posts.push(postId);
 
-            localStorage.setItem('posts', JSON.stringify(new_array));
+            // localStorage.setItem('posts', JSON.stringify(new_array));
+        },
+        getPostsAPI: function(){
+            // Access the API
+            fetch('https://jsonplaceholder.typicode.com/posts')
+            .then(response => response.json())
+            // Response saved in posts array
+            .then(response => this.posts = response);
+        },
+        getCommentsAPI: function(){
+            // Access the API
+            return fetch('https://jsonplaceholder.typicode.com/comments').then(response => response.json())
+            // Response saved in comments array
+            .then(response => this.comments = response);          
         }
     },
-    mounted: function () {
-        console.log("BeforeMount")
-        this.showPosts();
-        this.showComments();
+    beforeCreate: function(){
     },
-    
+    created: function(){
+    },
+    beforeMount: function(){
+        this.getPostsAPI();
+        this.getCommentsAPI();
+    },
+    mounted() {
+        
+    },
+    beforeUpdate: function (){
+    },
     updated: function(){
-        // this.showComments();
-        // console.log("Updated");
-        // console.log(id_post)
-        // console.log(JSON.stringify(this.posts));
-        // console.log(JSON.stringify(this.comments));
+    },
+    watch:{
+        posts: function(){
+            // All posts provided by API are saved in LocalStorage
+            if(!localStorage.getItem('posts')){
+                localStorage.setItem('posts', JSON.stringify(this.posts));
+            }
+        },
+        comments: function(){
+            if(!localStorage.getItem('commnets')){
+                localStorage.setItem('comments', JSON.stringify(this.comments));
+            }
+        },
+        id_post: function(){
+            console.log("cambio")
+            this.id_post = this.id_post;
+        }
     }
 })
+
+
+/*PENSAR LA MANERA DE LLAMAR LA FUNCIÓN addtoLocalStorage DE MANERA QUE SE AGREGUE LA INFORMACIÓN AL LOCALSTORAGE, ES PROBABLE QUE LLAMEMOS UNA FUNCIÓN FUERA DE VUE QUE CONSUMA EL API Y LO GUARDE EN LOCALSTORAGE PARA DESPUÉS MANIPULARLO EN VUE, COLOCANDO VALIDACIONES SI ESTE YA EXISTE O SEGUIR INVESITGANDO COMO FUNCIONAN EL CICLO DE VIDA*/

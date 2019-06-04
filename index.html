@@ -39,8 +39,8 @@
             <div class="card sections">
                 <div class="card-header">Comentarios</div>
                 <div class="card-body section-body">
-                    <comment-element v-for="(comment, index) in comments" v-if="comment.postId == 1" :key="index" :user="comment.email" :body="comment.body" :index="comment.id"></comment-element>
-                    <a href="#" class="btn btn-primary" @click="showComments">Comentar</a>
+                    <comment-element v-for="(comment, index) in comments" v-if="comment.postId == id_post" :key="index" :user="comment.email" :body="comment.body" :index="comment.id"></comment-element>
+                    <a href="#" class="btn btn-primary">Comentar</a>
                 </div>
             </div>
             <!-- Mi Actividad -->
